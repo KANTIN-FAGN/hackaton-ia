@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sauve Ta Planète - Mini-jeu Écologique</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+    <div class="logo">Sauve Ta Planète</div>
+</header>
+
+<div class="container">
+    <h1>Devenez un Maître du Tri</h1>
+    <p>Apprenez à trier correctement les déchets en les faisant glisser dans la bonne poubelle et découvrez l'impact de vos actions sur l'environnement.</p>
+
+    <div class="game-container">
+        <div class="game-overlay" id="start-screen">
+            <h2>Prêt à sauver la planète ?</h2>
+            <p>Triez les déchets qui apparaissent à l'écran en les glissant dans la bonne poubelle : recyclable (jaune), compostable (verte) ou ordure ménagère (grise).</p>
+            <button id="start-btn" class="btn">Commencer le jeu</button>
+        </div>
+
+        <div class="game-area" id="game-area">
+            <div class="score-panel">
+                <div class="score">Score: <span id="score">0</span></div>
+                <div class="timer">Temps: <span id="timer">60</span>s</div>
+            </div>
+
+            <div class="level-indicator">Niveau: <span id="level">1</span></div>
+
+            <div class="bin-container">
+                <div class="bin" id="recycling-bin" data-type="recyclable">
+                    <div class="bin-label">Recyclable</div>
+                    <div class="bin-icon">
+                        <div class="bin-svg">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M3 6h18"/>
+                                <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/>
+                                <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
+                                <line x1="10" x2="10" y1="11" y2="17"/>
+                                <line x1="14" x2="14" y1="11" y2="17"/>
+                            </svg>
+                        </div>
+                        <div class="bin-color"></div>
+                    </div>
+                </div>
+
+                <div class="bin" id="compost-bin" data-type="compostable">
+                    <div class="bin-label">Compostable</div>
+                    <div class="bin-icon">
+                        <div class="bin-svg">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M3 6h18"/>
+                                <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/>
+                                <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
+                                <line x1="10" x2="10" y1="11" y2="17"/>
+                                <line x1="14" x2="14" y1="11" y2="17"/>
+                            </svg>
+                        </div>
+                        <div class="bin-color"></div>
+                    </div>
+                </div>
+
+                <div class="bin" id="trash-bin" data-type="trash">
+                    <div class="bin-label">Ordures</div>
+                    <div class="bin-icon">
+                        <div class="bin-svg">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M3 6h18"/>
+                                <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/>
+                                <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
+                                <line x1="10" x2="10" y1="11" y2="17"/>
+                                <line x1="14" x2="14" y1="11" y2="17"/>
+                            </svg>
+                        </div>
+                        <div class="bin-color"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="game-overlay" id="end-screen" style="display: none;">
+            <h2>Partie terminée !</h2>
+            <div id="final-score"></div>
+            <button id="restart-btn" class="btn">Rejouer</button>
+        </div>
+    </div>
+
+    <div class="results" id="results" style="display: none;">
+        <h3>Votre impact environnemental</h3>
+        <p>Grâce à votre tri, vous avez :</p>
+
+        <div class="impact-grid">
+            <div class="impact-item">
+                <div class="impact-value" id="co2-saved">0</div>
+                <div class="impact-label">kg de CO₂ économisés</div>
+            </div>
+            <div class="impact-item">
+                <div class="impact-value" id="water-saved">0</div>
+                <div class="impact-label">litres d'eau économisés</div>
+            </div>
+            <div class="impact-item">
+                <div class="impact-value" id="waste-reduced">0</div>
+                <div class="impact-label">kg de déchets évités</div>
+            </div>
+            <div class="impact-item">
+                <div class="impact-value" id="trees-equivalent">0</div>
+                <div class="impact-label">équivalent en arbres</div>
+            </div>
+        </div>
+
+        <div class="fact-card">
+            <h4>Le saviez-vous ?</h4>
+            <p id="eco-fact"></p>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="info-modal">
+    <div class="modal-content">
+        <span class="modal-close" id="close-modal">&times;</span>
+        <h3 id="item-title"></h3>
+        <div class="modal-image" id="item-image"></div>
+        <p id="item-info"></p>
+
+        <div class="bin-indicator">
+            <div class="mini-bin mini-recycling">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 6h18"/>
+                    <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/>
+                    <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
+                    <line x1="10" x2="10" y1="11" y2="17"/>
+                    <line x1="14" x2="14" y1="11" y2="17"/>
+                </svg>
+                <div class="mini-bin-color"></div>
+            </div>
+            <div class="bin-status" id="recycling-status"></div>
+        </div>
+
+        <div class="bin-indicator">
+            <div class="mini-bin mini-compost">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 6h18"/>
+                    <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/>
+                    <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
+                    <line x1="10" x2="10" y1="11" y2="17"/>
+                    <line x1="14" x2="14" y1="11" y2="17"/>
+                </svg>
+                <div class="mini-bin-color"></div>
+            </div>
+            <div class="bin-status" id="compost-status"></div>
+        </div>
+
+        <div class="bin-indicator">
+            <div class="mini-bin mini-trash">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 6h18"/>
+                    <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/>
+                    <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
+                    <line x1="10" x2="10" y1="11" y2="17"/>
+                    <line x1="14" x2="14" y1="11" y2="17"/>
+                </svg>
+                <div class="mini-bin-color"></div>
+            </div>
+            <div class="bin-status" id="trash-status"></div>
+        </div>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
