@@ -1,3 +1,6 @@
+
+github : https://github.com/KANTIN-FAGN/hackaton-ia
+
 # Sauve Ta Planète : Mini-jeu Éducatif Écologique
 ## 1. Clarté et impact du message écologique
 ### Message principal
